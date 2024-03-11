@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Sheet Music Books</title>
+    <style>
+@font-face {
+  font-family: 'Garamond';
+  src: url("{% static 'fonts/Garamond.ttf' %}") format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+        body {
+            font-family: 'Garamond', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 10%;
+            height: 100%;
+            background-color: #f1f1f1;
+            overflow-x: hidden;
+            padding-top: 20px;
+            transition: 0.5s;
+        }
+        .menu:hover {
+            width: 250px;
+        }
+        .menu a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            transition: 0.3s;
+        }
+        .menu a:hover {
+            color: #f1f1f1;
+        }
+        .books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 10%;
+    padding: 10px;
+}
+
+.book {
+    margin: 1%;
+    text-align: center;
+    transition: transform .2s;
+}
+
+.book:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.book img {
+    border-radius: 5px;
+    width: 100%;
+    max-height: 500px;
+}
+
+
+         nav {
+           display:flex; 
+           justify-content:center; 
+           align-items:center; 
+           background-color:#333; 
+           color:#fff; 
+           height: 50px;
+           width: 100%;
+         }
+
+         nav ul{
+           list-style:none; 
+           display:flex
+         }
+
+         nav ul li{
+           margin-right :20px
+         }
+
+         nav ul li a{
+           text-decoration:none; 
+           color:#fff
+         }
+
+         nav img{
+           height :40px; 
+           margin-right :30px
+         }
+
+         /* Добавленный код */
+         nav ul li a:hover{
+           color:#333; 
+           background-color:#fff
+         }
+
+         nav ul li a:focus{
+           outline:none; 
+           color:#333; 
+           background-color:#fff
+         }
+
+         ul li {
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .menu {
+        display: none;
+    }
+
+    .books {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .book {
+    width: 48%; /* Размер каждой книги в одном ряду */
+    margin: 1%;
+  }
+}
+
+@media (min-width: 768px) {
+    .hide-on-desktop {
+        display: none;
+    }
+}
+
+    </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li class="hide-on-desktop"><a href="{% url 'Pavel_1' %}">Головна</a></li>
+      <li class="hide-on-desktop"><a href="{% url 'show_genre' 'Вокальний' %}">Вокальний</a></li>
+      <li class="hide-on-desktop"><a href="{% url 'show_genre' 'Фортепіанний' %}">Фортепіанний</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Моцарт' %}">МОЦАРТ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Петро Чайковський' %}">ЧАЙКОВСЬКИЙ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Рахманінов' %}">РАХМАНІНОВ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Ліст' %}">ЛІСТ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Фридерик Шопен' %}">ШОПЕН</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Шуман' %}">ШУМАН</a></li>
+      <a href="{% url 'Pavel_1' %}"><img src="{% static 'images/icon.png' %}" alt="Site Icon" class="icon"></a>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Лисенко' %}">ЛИСЕНКО</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Лятошинський' %}">ЛЯТОШИНСЬКИЙ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Пуччіни' %}">ПУЧЧІНИ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Бізе' %}">БІЗЕ</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Скрябін' %}">СКРЯБІН</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Бетховен' %}">БЕТХОВЕН</a></li>
+      <li class="hide-on-mobile"><a href="{% url 'compositor' 'Бах' %}">БАХ</a></li>
+      <form action="{% url 'search_sheets' %}" method="GET">
+        <input type="text" name="q" placeholder="Пошук по назві">
+        <button type="submit">Пошук</button>
+    </form>
+    </ul>
+  </nav>
+
+
+    
+    <div class="books">
+        {% for sheet in sheets %}
+        <div class="book" onclick="location.href='{% url '1' sheet.id %}';">
+            {% if sheet.images.all %}
+                <img src="{{ MEDIA }}{{ sheet.images.all.0.image.url }}" alt="{{ sheet.name }}">
+            {% endif %}
+            <p>{{ sheet.name }}</p>
+        </div>
+        {% endfor %}
+      </div>
+  
+
+
+    <div class="menu">
+      <a href="{% url 'Pavel_1' %}">Головна</a>
+      <a href="{% url 'show_genre' 'Вокальний' %}">Вокальний</a>
+      <a href="{% url 'show_genre' 'Фортепіанний' %}">Фортепіанний</a>
+    </div>
+
+
+</body>
+</html>
